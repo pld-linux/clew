@@ -1,16 +1,15 @@
 Summary:	CLEW - OpenCL Extension Wrangler library
 Summary(pl.UTF-8):	CLEW - biblioteka wczytująca rozszerzenia OpenCL
 Name:		clew
-Version:	0
-%define	snap	20110914
-Release:	0.%{snap}.1
+Version:	0.10
+Release:	1
 # clew.h is MIT, clew.c Boost v1.0
 License:	MIT, Boost v1.0
 Group:		Libraries
-# git clone https://code.google.com/p/clew/
-Source0:	%{name}.tar.xz
-# Source0-md5:	53d807a49af151a77c5064370604842e
-URL:		http://code.google.com/p/clew/
+#Source0Download: https://github.com/martijnberger/clew/releases
+Source0:	https://github.com/martijnberger/clew/archive/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	a2d3938159653e6e52f050b3dd235ca6
+URL:		https://github.com/martijnberger/clew
 BuildRequires:	libtool
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
@@ -56,11 +55,11 @@ Static CLEW library.
 Statyczna biblioteka CLEW.
 
 %prep
-%setup -q -n %{name}
+%setup -q
 
 %build
 libtool --mode=compile %{__cc} -c %{rpmcflags} %{rpmcppflags} -Iinclude -o src/clew.lo src/clew.c
-libtool --mode=link %{__cc} %{rpmldflags} %{rpmcflags} -o libclew.la src/clew.lo -rpath %{_libdir} -ldl
+libtool --mode=link %{__cc} %{rpmldflags} %{rpmcflags} -o libclew.la src/clew.lo -rpath %{_libdir} -version-info 1:0:0 -ldl
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -78,7 +77,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libclew.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libclew.so.0
+%attr(755,root,root) %ghost %{_libdir}/libclew.so.1
 
 %files devel
 %defattr(644,root,root,755)
